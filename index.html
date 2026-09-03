@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="theme-color" content="#0b1020">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FinUp — Controle Financeiro</title>
+
+    <meta name="description" content="FinUp — seu controle financeiro pessoal">
+
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%236c63ff'/%3E%3Cpath d='M25 65L42 48L53 58L76 30' fill='none' stroke='white' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Puter.js -->
+    <script src="https://js.puter.com/v2/"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css?v=responsive6">
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+     TELA DE LOGIN
+===================================================== -->
+
+    <div id="authScreen" class="auth-screen">
+
+        <div class="auth-card">
+
+            <div class="auth-logo-wrap">
+                <img class="auth-logo-image" src="finup-logo.png" alt="FinUp — Controle Financeiro" loading="eager">
+            </div>
+
+            <div class="auth-content">
+
+                <h1>Controle suas finanças.</h1>
+
+                <p>
+                    Organize seus gastos, acompanhe suas metas
+                    e tenha uma visão clara do seu dinheiro.
+                </p>
+
+                <div class="auth-actions">
+                    <button id="loginButton" class="primary-button login-button">
+                        <span>Entrar</span>
+                        <span>→</span>
+                    </button>
+
+                    <button id="createAccountButton" class="secondary-auth-button" type="button">
+                        <span>＋ Criar minha conta</span>
+                    </button>
+                </div>
+
+                <p class="auth-note">
+                    Sua conta é protegida pela autenticação do Puter. Ao criar uma conta, você poderá acessar seus dados do FinUp com segurança.
+                </p>
+
+                <div class="auth-info">
+                    <span>🔒</span>
+                    <span>
+                        Seus dados são armazenados individualmente
+                        na sua conta.
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     APLICAÇÃO
+===================================================== -->
+
+    <div id="app" class="app hidden">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="brand sidebar-brand">
+
+                    <div class="brand-icon">
+                        ↗
+                    </div>
+
+                    <div>
+                        <strong>FinUp</strong>
+                        <span>Finanças pessoais</span>
+                    </div>
+
+                </div>
+
+
+                <nav class="navigation">
+
+                    <button class="nav-item active" data-view="dashboard">
+
+                        <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+                        <span>Dashboard</span>
+
+                    </button>
+
+                    <button class="nav-item" data-view="income">
+
+                        <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 15h4"/><circle cx="17" cy="12" r="1.5"/></svg></span>
+                        <span>Minha Renda</span>
+
+                    </button>
+
+                    <button class="nav-item" data-view="expenses">
+
+                        <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 7h12M6 12h12M6 17h8"/><path d="M17 15l3 3-3 3"/><path d="M20 18h-7"/></svg></span>
+                        <span>Despesas</span>
+
+                    </button>
+
+                    <button class="nav-item" data-view="goals">
+
+                        <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></span>
+                        <span>Metas</span>
+
+                    </button>
+
+                </nav>
+
+            </div>
+
+
+            <!-- USUÁRIO -->
+
+            <div class="sidebar-user">
+
+                <div class="user-avatar" id="userAvatar">
+                    U
+                </div>
+
+                <div class="user-information">
+
+                    <strong id="userName">
+                        Usuário
+                    </strong>
+
+                    <span id="userEmail">
+                        Conta Puter
+                    </span>
+
+                </div>
+
+                <button id="logoutButton" class="logout-button" title="Sair">
+
+                    ↪
+
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CONTEÚDO -->
+
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <div class="page-title">
+                        <span id="pageGreeting">
+                            Visão geral
+                        </span>
+
+                        <h1 id="pageTitle">
+                            Dashboard
+                        </h1>
+
+                    </div>
+
+                </div>
+
+
+                <div class="topbar-actions">
+
+                    <div class="month-selector">
+
+                        <button id="previousMonth">
+                            ‹
+                        </button>
+
+                        <strong id="currentMonth">
+                            Setembro 2026
+                        </strong>
+
+                        <button id="nextMonth">
+                            ›
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+             DASHBOARD
+        ================================================== -->
+
+            <section id="dashboardView" class="view active-view">
+
+                <!-- RESUMO -->
+
+                <div class="summary-grid">
+
+                    <div class="summary-card main-summary">
+
+                        <div class="summary-card-header">
+
+                            <span class="summary-label">
+                                Total gasto no mês
+                            </span>
+
+                            <span class="summary-icon purple">
+                                $
+                            </span>
+
+                        </div>
+
+                        <div id="totalSpent" class="summary-value">
+
+                            R$ 0,00
+
+                        </div>
+
+                        <div id="monthComparison" class="comparison">
+
+                            Nenhuma comparação disponível
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <div class="summary-card-header">
+
+                            <span class="summary-label">
+                                Maior despesa
+                            </span>
+
+                            <span class="summary-icon orange">
+                                ↑
+                            </span>
+
+                        </div>
+
+                        <div id="largestExpense" class="summary-value small">
+
+                            R$ 0,00
+
+                        </div>
+
+                        <div id="largestName" class="summary-description">
+
+                            Nenhuma despesa
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <div class="summary-card-header">
+
+                            <span class="summary-label">
+                                Compras realizadas
+                            </span>
+
+                            <span class="summary-icon blue">
+                                #
+                            </span>
+
+                        </div>
+
+                        <div id="purchaseCount" class="summary-value small">
+
+                            0
+
+                        </div>
+
+                        <div class="summary-description">
+                            neste mês
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <div class="summary-card-header">
+
+                            <span class="summary-label">
+                                Disponível da renda
+                            </span>
+
+                            <span class="summary-icon green">
+                                ✓
+                            </span>
+
+                        </div>
+
+                        <div id="savedAmount" class="summary-value small">
+
+                            R$ 0,00
+
+                        </div>
+
+                        <div id="goalMiniText" class="summary-description">
+
+                            Configure um limite
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ATALHOS -->
+
+                <div class="quick-actions-panel">
+                    <div class="quick-actions-copy">
+                        <span class="section-label">Acesso rápido</span>
+                        <h2>O que você quer fazer?</h2>
+                        <p>Tenha as principais ações do FinUp sempre à mão.</p>
+                    </div>
+                    <div class="quick-actions-grid">
+                        <button type="button" class="quick-action" id="quickAddExpense">
+                            <span class="quick-action-icon">+</span>
+                            <span><strong>Nova despesa</strong><small>Registrar um gasto</small></span>
+                        </button>
+                        <button type="button" class="quick-action" id="quickNewGoal">
+                            <span class="quick-action-icon">◎</span>
+                            <span><strong>Nova meta</strong><small>Criar um objetivo</small></span>
+                        </button>
+                        <button type="button" class="quick-action" id="quickIncome">
+                            <span class="quick-action-icon">$</span>
+                            <span><strong>Minha renda</strong><small>Atualizar sua renda</small></span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- LIMITE -->
+
+                <div class="limit-card">
+
+                    <div class="limit-header">
+
+                        <div>
+
+                            <span class="section-label">
+                                Renda mensal
+                            </span>
+
+                            <h3 id="limitValue">
+                                R$ 0,00
+                            </h3>
+
+                        </div>
+
+                        <button id="editLimitButton" class="secondary-button">
+
+                            Editar renda
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="progress-container">
+
+                        <div class="progress-track">
+
+                            <div id="limitProgress" class="progress-fill" style="width: 0%;">
+
+                            </div>
+
+                        </div>
+
+                        <strong id="limitPercent">
+                            0%
+                        </strong>
+
+                    </div>
+
+
+                    <div id="limitStatus" class="limit-status">
+
+                        Nenhum limite definido.
+
+                    </div>
+
+                </div>
+
+
+                <!-- ALERTA -->
+
+                <div id="alertBox" class="alert-box hidden">
+
+                    <div class="alert-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3L12 4z"/><path d="M12 9v5M12 17h.01"/></svg></div>
+
+                    <div>
+
+                        <strong id="alertTitle">
+                            Atenção
+                        </strong>
+
+                        <p id="alertMessage">
+                            -
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GRÁFICO + META -->
+
+                <div class="dashboard-grid">
+
+                    <div class="panel chart-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+
+                                <span class="section-label">
+                                    Evolução dos gastos
+                                </span>
+
+                                <h2>
+                                    Gastos por dia
+                                </h2>
+
+                            </div>
+
+                            <strong id="chartTotal">
+                                R$ 0,00
+                            </strong>
+
+                        </div>
+
+                        <div class="chart-wrapper">
+
+                            <canvas id="expenseChart"></canvas>
+
+                            <div id="chartEmpty" class="chart-empty hidden">
+
+                                <div>📊</div>
+
+                                <strong>
+                                    Nenhum gasto neste mês
+                                </strong>
+
+                                <span>
+                                    Adicione sua primeira despesa
+                                    para visualizar a evolução.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- META MINI -->
+
+                    <div class="panel goal-mini-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+
+                                <span class="section-label">
+                                    Sua meta
+                                </span>
+
+                                <h2>
+                                    Objetivo financeiro
+                                </h2>
+
+                            </div>
+
+                            <span class="goal-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 4v3M20 12h-3M12 20v-3M4 12h3"/></svg></span>
+
+                        </div>
+
+
+                        <div id="goalMini" class="goal-mini-content">
+
+                            <div class="empty-goal">
+
+                                <div class="empty-goal-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 4v3M20 12h-3M12 20v-3M4 12h3"/></svg></div>
+
+                                <strong>
+                                    Nenhuma meta criada
+                                </strong>
+
+                                <button id="createGoalFromDashboard" class="text-button">
+
+                                    Criar meta →
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ASSISTENTE FINANCEIRO -->
+
+                <div class="panel ai-assistant-panel">
+                    <div class="ai-assistant-copy">
+                        <span class="section-label">Assistente financeiro</span>
+                        <h2>Uma recomendação feita para você</h2>
+                        <p>Analise seus gastos, sua renda e suas metas para receber uma orientação prática e personalizada.</p>
+                    </div>
+                    <button type="button" id="generateAIInsights" class="ai-primary-button">
+                        <span class="ai-button-icon" aria-hidden="true">✦</span>
+                        <span>Gerar recomendação</span>
+                    </button>
+                    <div id="smartInsights" class="insights-grid ai-assistant-results"></div>
+                </div>
+
+
+                <!-- CATEGORIAS + RECENTES -->
+
+                <div class="dashboard-lower-grid">
+
+                <div class="panel categories-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="section-label">
+                                Distribuição
+                            </span>
+
+                            <h2>
+                                Gastos por categoria
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="categoryList" class="category-list">
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENTES -->
+
+                <div class="panel recent-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="section-label">
+                                Movimentações
+                            </span>
+
+                            <h2>
+                                Despesas recentes
+                            </h2>
+
+                        </div>
+
+                        <button id="viewAllExpenses" class="text-button">
+
+                            Ver todas →
+
+                        </button>
+
+                    </div>
+
+
+                    <div id="recentExpenses" class="recent-list">
+
+                    </div>
+
+                </div>
+
+                </div>
+            </section>
+
+
+            <!-- =================================================
+             MINHA RENDA
+        ================================================== -->
+
+            <section id="incomeView" class="view">
+
+                <div class="page-header">
+                    <div>
+                        <span class="section-label">Minha renda</span>
+                        <h2>Minha renda</h2>
+                        <p>Calcule sua renda mensal considerando sua rotina e as exceções do mês.</p>
+                    </div>
+                </div>
+
+                <div class="income-page-grid">
+
+                    <div class="panel income-settings-panel">
+                        <div class="panel-header">
+                            <div>
+                                <span class="section-label">Configuração</span>
+                                <h2>Como você trabalha</h2>
+                            </div>
+                            <span class="summary-icon green" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 15h4"/><circle cx="17" cy="12" r="1.5"/></svg></span>
+                        </div>
+
+                        <form id="incomeForm" class="income-form income-page-form">
+                            <div class="income-fields income-page-fields">
+                                <label>
+                                    Valor da diária
+                                    <input id="dailyRateInput" type="number" min="0.01" step="0.01" placeholder="R$ 150,00" required>
+                                </label>
+                                <label>
+                                    Dias trabalhados por semana
+                                    <input id="daysPerWeekInput" type="number" min="1" max="7" step="1" placeholder="6" required>
+                                </label>
+                                <button type="submit" class="primary-button">Salvar renda</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="panel income-adjustments-panel">
+                        <div class="panel-header">
+                            <div>
+                                <span class="section-label">Ajustes do mês</span>
+                                <h2>Exceções</h2>
+                            </div>
+                            <span class="summary-icon">📅</span>
+                        </div>
+
+                        <div class="income-adjustment-grid">
+                            <label class="income-adjustment-card">
+                                <span>➕</span>
+                                <strong>Dias de trabalho extra</strong>
+                                <small>Informe quantos dias trabalhou além do normal.</small>
+                                <input id="extraWorkDaysInput" type="number" min="0" step="1" value="0">
+                            </label>
+                            <label class="income-adjustment-card">
+                                <span>➖</span>
+                                <strong>Faltas no mês</strong>
+                                <small>Informe quantos dias não trabalhou.</small>
+                                <input id="absencesInput" type="number" min="0" step="1" value="0">
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="income-adjustments-panel extra-income-panel">
+                <div class="section-heading">
+                    <div>
+                        <h3><span class="heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M16.5 7.5c-.8-1-2.2-1.5-4-1.5-2.5 0-4 1.1-4 2.8 0 4.4 8 2.2 8 6.2 0 1.8-1.6 3-4.2 3-1.9 0-3.5-.6-4.5-1.8"/></svg></span>Renda Extra</h3>
+                        <p>Registre ganhos fora da sua renda de trabalho.</p>
+                    </div>
+                </div>
+                <form id="extraIncomeForm" class="income-adjustment-grid">
+                    <div class="income-adjustment-card">
+                        <label for="extraIncomeDescriptionInput">Descrição</label>
+                        <input id="extraIncomeDescriptionInput" type="text" placeholder="Ex.: Aposta, freelance ou venda">
+                    </div>
+                    <div class="income-adjustment-card">
+                        <label for="extraIncomeAmountInput">Valor</label>
+                        <input id="extraIncomeAmountInput" type="number" min="0" step="0.01" placeholder="0,00">
+                    </div>
+                    <div class="income-adjustment-card">
+                        <label for="extraIncomeDateInput">Data</label>
+                        <input id="extraIncomeDateInput" type="date">
+                    </div>
+                    <div class="income-adjustment-card income-adjustment-action">
+                        <button type="submit" class="primary-button">Adicionar renda extra</button>
+                    </div>
+                </form>
+                <div id="extraIncomeList" class="extra-income-list"></div>
+            </div>
+            <div class="income-summary-grid">
+                    <div class="income-summary-card"><span><span class="heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 15h4"/><circle cx="17" cy="12" r="1.5"/></svg></span>Renda mensal estimada</span><strong id="monthlyIncomeValue">R$ 0,00</strong></div>
+                    <div class="income-summary-card"><span>🧾 Gastos identificados</span><strong id="incomeSpentValue">R$ 0,00</strong></div>
+                    <div class="income-summary-card"><span>🟢 Saldo disponível</span><strong id="incomeBalanceValue">R$ 0,00</strong></div>
+                    <div class="income-summary-card"><span>📊 Renda comprometida</span><strong id="incomePercentValue">0%</strong></div>
+                </div>
+
+                <div class="panel income-explanation-panel">
+                    <div class="panel-header">
+                        <div>
+                            <span class="section-label">Como o cálculo funciona</span>
+                            <h2>Estimativa do mês</h2>
+                        </div>
+                    </div>
+                    <div id="incomeCalculationText" class="income-calculation-text">Informe sua diária e os dias trabalhados por semana.</div>
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+             DESPESAS
+        ================================================== -->
+
+            <section id="expensesView" class="view">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            Controle financeiro
+                        </span>
+
+                        <h2>
+                            Minhas despesas
+                        </h2>
+
+                        <p>
+                            Consulte e gerencie todas as suas
+                            movimentações.
+                        </p>
+
+                    </div>
+
+                    <button id="addExpensePage" class="primary-button">
+
+                        + Nova despesa
+
+                    </button>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="filters">
+
+                        <div class="search-box">
+
+                            <span>
+                                🔎
+                            </span>
+
+                            <input id="searchExpense" type="text" placeholder="Pesquisar despesa...">
+
+                        </div>
+
+
+                        <select id="filterCategory">
+
+                            <option value="">
+                                Todas as categorias
+                            </option>
+
+                            <option value="Alimentação">
+                                🍔 Alimentação
+                            </option>
+
+                            <option value="Transporte">
+                                🚗 Transporte
+                            </option>
+
+                            <option value="Moradia">
+                                🏠 Moradia
+                            </option>
+
+                            <option value="Lazer">
+                                🎮 Lazer
+                            </option>
+
+                            <option value="Saúde">
+                                ❤️ Saúde
+                            </option>
+
+                            <option value="Educação">
+                                📚 Educação
+                            </option>
+
+                            <option value="Compras">
+                                🛍️ Compras
+                            </option>
+
+                            <option value="Outros">
+                                📦 Outros
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Descrição
+                                    </th>
+
+                                    <th>
+                                        Categoria
+                                    </th>
+
+                                    <th>
+                                        Data
+                                    </th>
+
+                                    <th>
+                                        Valor
+                                    </th>
+
+                                    <th>
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="expenseTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+             METAS
+        ================================================== -->
+
+            <section id="goalsView" class="view">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            Planejamento
+                        </span>
+
+                        <h2>
+                            Metas financeiras
+                        </h2>
+
+                        <p>
+                            Defina objetivos e acompanhe seu progresso.
+                        </p>
+
+                    </div>
+
+                    <button type="button" id="newGoalButton" class="primary-button">
+                        + Nova meta
+                    </button>
+
+                </div>
+
+
+                <div class="goals-layout">
+
+                    <div class="panel goal-form-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+
+                                <span class="section-label">
+                                    Objetivo
+                                </span>
+
+                                <h2>
+                                    Configurar meta
+                                </h2>
+
+                            </div>
+
+                            <span class="goal-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 4v3M20 12h-3M12 20v-3M4 12h3"/></svg></span>
+
+                        </div>
+
+
+                        <form id="goalForm">
+
+                            <label>
+                                Nome da meta
+                            </label>
+
+                            <input id="goalName" type="text" placeholder="Ex.: Viagem, carro, reserva..." required>
+
+
+                            <label>
+                                Valor da meta
+                            </label>
+
+                            <input id="goalTarget" type="number" min="0.01" step="0.01" placeholder="R$ 10.000,00"
+                                required>
+
+
+                            <label>
+                                Valor já guardado
+                            </label>
+
+                            <input id="goalSaved" type="number" min="0" step="0.01" placeholder="R$ 0,00">
+
+                            <div class="goal-date-grid">
+                                <div>
+                                    <label for="goalStartDate">Data de início</label>
+                                    <input id="goalStartDate" type="date">
+                                </div>
+                                <div>
+                                    <label for="goalEndDate">Data final</label>
+                                    <input id="goalEndDate" type="date">
+                                </div>
+                            </div>
+
+
+                            <div class="form-actions">
+
+                                <button type="submit" class="primary-button">
+
+                                    Salvar meta
+
+                                </button>
+
+                                <button type="button" id="deleteGoal" class="danger-button">
+
+                                    Excluir
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+
+                    <div id="goalDisplay" class="panel goal-display">
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+     MODAL DESPESA
+===================================================== -->
+
+    <div id="expenseModal" class="modal hidden">
+
+        <div class="modal-card">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        FinUp
+                    </span>
+
+                    <h2>
+                        Nova despesa
+                    </h2>
+
+                </div>
+
+                <button class="modal-close" data-close="expenseModal">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <form id="expenseForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label>
+                            Descrição
+                        </label>
+
+                        <input id="expenseDescription" type="text" placeholder="Ex.: Supermercado" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Valor
+                        </label>
+
+                        <input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="0,00" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Data
+                        </label>
+
+                        <input id="expenseDate" type="date" required>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Categoria
+                        </label>
+
+                        <select id="expenseCategory" required>
+
+                            <option value="Alimentação">
+                                🍔 Alimentação
+                            </option>
+
+                            <option value="Transporte">
+                                🚗 Transporte
+                            </option>
+
+                            <option value="Moradia">
+                                🏠 Moradia
+                            </option>
+
+                            <option value="Lazer">
+                                🎮 Lazer
+                            </option>
+
+                            <option value="Saúde">
+                                ❤️ Saúde
+                            </option>
+
+                            <option value="Educação">
+                                📚 Educação
+                            </option>
+
+                            <option value="Compras">
+                                🛍️ Compras
+                            </option>
+
+                            <option value="Outros">
+                                📦 Outros
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Observação
+                        </label>
+
+                        <textarea id="expenseNote" placeholder="Opcional..."></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LEITOR DE RECIBO -->
+
+                <div class="receipt-box">
+
+                    <div class="receipt-header">
+
+                        <div>
+
+                            <strong>
+                                🤖 Ler recibo com IA
+                            </strong>
+
+                            <span>
+                                Envie uma foto do cupom ou recibo.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="receipt-actions">
+
+                        <div class="custom-file-upload">
+                            <input id="receiptFile" type="file" accept="image/*">
+                            <label for="receiptFile" class="custom-file-label">
+                                <span class="file-icon">📄</span>
+                                <span>Escolher arquivo</span>
+                            </label>
+                            <span id="receiptFileName" class="file-name">
+                                Nenhum arquivo escolhido
+                            </span>
+                        </div>
+
+                        <button type="button" id="readReceipt" class="secondary-button">
+
+                            ✦ Ler recibo
+
+                        </button>
+
+                    </div>
+
+
+                    <div id="aiResult" class="ai-result">
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button type="button" class="secondary-button" data-close="expenseModal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button type="submit" class="primary-button">
+
+                        Salvar despesa
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     MODAL LIMITE
+===================================================== -->
+
+    <div id="limitModal" class="modal hidden">
+
+        <div class="modal-card small-modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        Planejamento
+                    </span>
+
+                    <h2>
+                        Limite mensal
+                    </h2>
+
+                </div>
+
+                <button class="modal-close" data-close="limitModal">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <form id="limitForm">
+
+                <label>
+                    Qual será seu limite mensal?
+                </label>
+
+                <input id="limitInput" type="number" min="0" step="0.01" placeholder="R$ 3.000,00" required>
+
+
+                <div class="modal-actions">
+
+                    <button type="button" class="secondary-button" data-close="limitModal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button type="submit" class="primary-button">
+
+                        Salvar limite
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOAST -->
+
+    <div id="toastContainer" class="toast-container">
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+
+    <script src="scripts.js?v=1000"></script>
+
+<script>
+/* Esta versão não registra Service Worker para evitar carregar arquivos antigos. */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map(reg => reg.unregister()));
+      if (window.caches) {
+        const names = await caches.keys();
+        await Promise.all(names.map(name => caches.delete(name)));
+      }
+    } catch (e) {
+      console.warn('Limpeza de cache ignorada:', e);
+    }
+  });
+}
+</script>
+</body>
+
+</html>
