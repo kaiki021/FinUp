@@ -3521,3 +3521,264 @@ body:has(#authScreen:not(.hidden)) { overflow: hidden; background: #05070d; }
         font-size: 14px !important;
     }
 }
+
+
+/* =========================================================
+   FINUP — CORREÇÃO MOBILE REAL
+   Corrige largura, margem, topo e navegação no celular.
+   Mantém o layout desktop intacto.
+========================================================= */
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+#app {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+@media (max-width: 760px) {
+    .app {
+        width: 100%;
+        min-width: 0;
+        display: block;
+    }
+
+    /* No celular o conteúdo ocupa a tela inteira.
+       A barra de navegação fica embaixo. */
+    .main-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        padding: 14px 12px 88px !important;
+    }
+
+    .topbar {
+        width: 100%;
+        min-width: 0;
+        margin-bottom: 18px;
+        padding: 0 !important;
+        gap: 12px;
+        align-items: stretch !important;
+    }
+
+    .page-title {
+        min-width: 0;
+    }
+
+    .page-title h1 {
+        font-size: 26px !important;
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    .page-title > span {
+        font-size: 11px;
+        margin-bottom: 5px;
+    }
+
+    .topbar-actions {
+        width: 100% !important;
+        min-width: 0;
+        display: block !important;
+    }
+
+    .month-selector {
+        width: 100% !important;
+        min-width: 0;
+        margin: 0;
+        padding: 7px 8px;
+        display: flex !important;
+    }
+
+    .month-selector strong {
+        min-width: 0 !important;
+        flex: 1 1 auto;
+        white-space: nowrap;
+        font-size: 13px;
+    }
+
+    .summary-grid {
+        width: 100%;
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    .summary-card {
+        width: 100%;
+        min-width: 0;
+        padding: 18px !important;
+    }
+
+    .summary-card-header {
+        margin-bottom: 14px;
+    }
+
+    .summary-value {
+        font-size: 27px !important;
+    }
+
+    .summary-value.small {
+        font-size: 22px !important;
+    }
+
+    .dashboard-grid,
+    .dashboard-lower-grid,
+    .income-page-grid,
+    .goals-layout {
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: 1fr !important;
+    }
+
+    .panel,
+    .limit-card,
+    .quick-actions-panel,
+    .alert-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .panel {
+        padding: 18px !important;
+    }
+
+    .chart-wrapper {
+        height: 240px;
+    }
+
+    /* Barra inferior mobile */
+    .sidebar {
+        width: 100% !important;
+        height: 68px !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        top: auto !important;
+        padding: 5px 8px !important;
+        border-right: 0 !important;
+        border-top: 1px solid rgba(148,163,184,.14);
+        border-radius: 0;
+    }
+
+    .sidebar-top {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .navigation {
+        width: 100% !important;
+        height: 100%;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: space-around !important;
+        gap: 4px;
+    }
+
+    .nav-item {
+        flex: 1 1 0;
+        width: auto !important;
+        min-width: 0;
+        height: 56px !important;
+        padding: 8px 4px !important;
+        margin: 0 !important;
+        justify-content: center !important;
+        align-items: center;
+        border-radius: 12px;
+    }
+
+    .nav-item > span:last-child {
+        display: none !important;
+    }
+
+    .nav-icon {
+        width: 24px !important;
+        height: 24px;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .sidebar-brand,
+    .sidebar-user {
+        display: none !important;
+    }
+
+    .quick-actions-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .quick-action {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .limit-header,
+    .panel-header {
+        gap: 12px;
+    }
+
+    .limit-header {
+        flex-wrap: wrap;
+    }
+
+    .limit-header .secondary-button {
+        width: 100%;
+    }
+
+    .category-row {
+        grid-template-columns: 38px minmax(0, 1fr) auto !important;
+    }
+
+    .recent-info,
+    .recent-info strong {
+        min-width: 0;
+    }
+
+    .receipt-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 380px) {
+    .main-content {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .summary-card,
+    .panel,
+    .limit-card {
+        padding: 16px !important;
+    }
+
+    .page-title h1 {
+        font-size: 24px !important;
+    }
+
+    .summary-value {
+        font-size: 25px !important;
+    }
+}
