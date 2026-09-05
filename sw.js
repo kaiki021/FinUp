@@ -1,6 +1,6 @@
-const CACHE = 'finup-app-v4';
+const CACHE = 'finup-app-v3';
 const ASSETS = [
-  './', './index.html', './styles.css?v=responsive7', './scripts.js?v=4',
+  './', './index.html', './styles.css?v=3', './scripts.js?v=3',
   './finup-logo.png', './icon-192.png', './icon-512.png', './manifest.json'
 ];
 self.addEventListener('install', event => {

@@ -23,7 +23,7 @@
     <script src="https://js.puter.com/v2/"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="styles.css?v=responsive7">
+    <link rel="stylesheet" href="styles.css?v=welcome10">
 
 </head>
 
@@ -43,34 +43,47 @@
 
             <div class="auth-content">
 
-                <h1>Controle suas finanças.</h1>
+                <h1>Organize sua <span>vida financeira</span></h1>
 
                 <p>
-                    Organize seus gastos, acompanhe suas metas
-                    e tenha uma visão clara do seu dinheiro.
+                    Acompanhe gastos, controle sua renda<br class="auth-break">
+                    e alcance seus objetivos.
                 </p>
 
                 <div class="auth-actions">
                     <button id="loginButton" class="primary-button login-button">
-                        <span>Entrar</span>
-                        <span>→</span>
+                        <span class="auth-button-icon">▥</span>
+                        <span>Entrar no FinUp</span>
+                        <span class="auth-button-arrow">→</span>
                     </button>
 
                     <button id="createAccountButton" class="secondary-auth-button" type="button">
-                        <span>＋ Criar minha conta</span>
+                        <span class="auth-button-icon">♙</span>
+                        <span>Criar minha conta</span>
+                        <span class="auth-button-arrow">→</span>
                     </button>
                 </div>
 
                 <p class="auth-note">
-                    Sua conta é protegida pela autenticação do Puter. Ao criar uma conta, você poderá acessar seus dados do FinUp com segurança.
+                    Sua conta é protegida pela autenticação do Puter.
                 </p>
 
-                <div class="auth-info">
-                    <span>🔒</span>
-                    <span>
-                        Seus dados são armazenados individualmente
-                        na sua conta.
-                    </span>
+                <div class="auth-features" aria-label="Recursos do FinUp">
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">♢</div>
+                        <strong>Seguro</strong>
+                        <span>Seus dados<br>protegidos</span>
+                    </div>
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">▥</div>
+                        <strong>Completo</strong>
+                        <span>Controle total das<br>suas finanças</span>
+                    </div>
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">◎</div>
+                        <strong>Objetivos</strong>
+                        <span>Alcance suas<br>metas</span>
+                    </div>
                 </div>
 
             </div>
@@ -214,6 +227,10 @@
 
                     </div>
 
+                    <button id="topbarLogoutButton" class="topbar-logout-button" type="button" title="Sair da conta" aria-label="Sair da conta">
+                        <span class="topbar-logout-icon" aria-hidden="true">↪</span>
+                        <span>Sair</span>
+                    </button>
 
                 </div>
 
@@ -1270,7 +1287,7 @@
     <!-- JAVASCRIPT -->
 
 
-    <script src="scripts.js?v=1000"></script>
+    <script src="scripts.js?v=1001"></script>
 
 <script>
 /* Esta versão não registra Service Worker para evitar carregar arquivos antigos. */

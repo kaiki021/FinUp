@@ -3264,6 +3264,16 @@ function setupEvents() {
             logout
         );
 
+    const topbarLogoutButton = $("topbarLogoutButton");
+    if (topbarLogoutButton) {
+        topbarLogoutButton.addEventListener("click", async () => {
+            const confirmed = window.confirm("Deseja sair da sua conta do FinUp?");
+            if (confirmed) {
+                await logout();
+            }
+        });
+    }
+
 
     /*
      * Navegação
