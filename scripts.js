@@ -3238,11 +3238,17 @@ function setupEvents() {
                  * O Puter fornece a autenticação da conta.
                  * Não armazenamos senhas dentro do FinUp.
                  */
-                await puter.auth.signIn({ attempt_temp_user_creation: true });
+                // Abre o fluxo normal do Puter, que permite criar uma conta
+                // permanente ou entrar em uma conta existente.
+                // Não usamos attempt_temp_user_creation aqui porque isso cria
+                // uma conta temporária e não é o fluxo desejado pelo botão
+                // "Criar minha conta".
+                await puter.auth.signIn();
                 await bootSignedUser();
             } catch (error) {
-                console.error(error);
-                showToast("Não foi possível criar/entrar na conta.", "error");
+                console.error("Erro na autenticação Puter:", error);
+                const msg = error?.msg || error?.message || "Não foi possível criar/entrar na conta.";
+                showToast(msg, "error");
             }
         });
     }
